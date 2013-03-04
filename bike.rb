@@ -1,7 +1,6 @@
 class Bike
 
   def initialize(status)
-     @status = status
-     p (self)
+    @status = status
   end 
 end
