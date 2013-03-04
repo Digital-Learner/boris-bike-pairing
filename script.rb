@@ -37,7 +37,7 @@ class Control
       station.receive_bike(bike)
       @bikes << bike
     end
-#     p (self)    
+    #p self    
   end
 
   def make_people(no) 

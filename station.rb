@@ -15,10 +15,11 @@ class Station
   end
 
   def receive_bike(bike)
-    bike.location.nil? ? bike.location == self.name : nil
-    @bikes_in_station << bike
+    if @capacity > bikes_count
+      bike.location.nil? ? bike.location == self.name : nil
+      @bikes_in_station << bike
+    else
+      raise "Station full"
+    end
   end
-
 end
-
-
