@@ -18,9 +18,9 @@ class Control
 
   def initialize_scenario
     puts "Initializing your system"
+    make_stations(1)
     make_bikes(5)
     make_people(5)
-    make_stations(1)
     make_garages(1)
     make_vans(1)
     puts "There are #{@bikes.count} #{"bike".pluralize(@bikes.count)}, " +
@@ -32,14 +32,17 @@ class Control
 
   def make_bikes(no)
     no.times do |i| 
-      @bikes << Bike.new("healthy")
+      @bikes << Bike.new(true, true)
+
     end
+#     p (self)    
   end
 
   def make_people(no) 
     no.times do |i| 
       @people << Person.new
     end
+#    p (self)
   end  
 
   def make_stations(no) 
@@ -61,8 +64,22 @@ class Control
   end
 
   def create_report
-    puts "Generating report"   
-  end 
+    puts "Generating report"
+    bikes_in_circulation # total no. bikes created
+    bikes_in_station
+    # bikes_in_garage
+    # bikes_broken
+    # bikes_being_ridden
+  end
+
+  def bikes_in_circulation
+    puts "Report: Bikes in Circulation #{@bikes.count}"
+  end
+
+  def bikes_in_station
+    puts "Report: Bikes in Station"
+    puts @stations[0].bikes_in_station.nil? ? "There are 0 bikes at this station" : "There are #{bikes_in_station.count} bikes in the station"
+  end
 end
 
 
@@ -71,3 +88,5 @@ control = Control.new
 
 control.initialize_scenario
 control.create_report
+
+
