@@ -27,24 +27,22 @@ class Control
                     "#{@people.count} #{"person".pluralize(@people.count)}, " +
                     "#{@stations.count} #{"station".pluralize(@stations.count)}, " + 
                     "#{@vans.count} #{"van".pluralize(@vans.count)} " + 
-                    "and #{@garages.count} #{"garage".pluralize(@garages.count)} in your system at startup"    
+                    "and #{@garages.count} #{"garage".pluralize(@garages.count)} in your system at startup"
   end
 
   def make_bikes(no)
     no.times do |i| 
-      bike = Bike.new(true, true)
+      bike = Bike.new(true)
       station = @stations[0]
       station.receive_bike(bike)
       @bikes << bike
     end
-    #p self    
   end
 
   def make_people(no) 
     no.times do |i| 
       @people << Person.new
     end
-#    p (self)
   end  
 
   def make_stations(no) 
@@ -70,7 +68,7 @@ class Control
     bikes_in_circulation # total no. bikes created
     bikes_in_station
     # bikes_in_garage
-    # bikes_broken
+    bikes_broken
     # bikes_being_ridden
   end
 
@@ -82,6 +80,12 @@ class Control
     puts "Report: Bikes in Station"
     # puts @stations[0].bikes_count
     puts @stations[0].bikes_count.nil? ? "There are 0 bikes at this station" : "There are #{@stations[0].bikes_count} bikes in the station"
+  end
+
+  def bikes_broken
+    puts "Report: Bikes Broken"
+    puts @stations[0].broken_bikes_count
+
   end
 end
 
