@@ -17,6 +17,7 @@ class Control
   end
 
   def initialize_scenario
+    puts "Initializing your system"
     make_bikes(5)
     make_people(5)
     make_stations(1)
@@ -57,6 +58,10 @@ class Control
     no.times do |i| 
       @vans << Van.new("Van number #{i}")
     end
+  end
+
+  def create_report
+    puts "Generating report"   
   end 
 end
 
@@ -65,3 +70,4 @@ end
 control = Control.new
 
 control.initialize_scenario
+control.create_report
