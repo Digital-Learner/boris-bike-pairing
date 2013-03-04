@@ -1,17 +1,19 @@
 #!/usr/bin/env ruby
 
+# Gems
+require 'active_support/inflector'
+
+# local program files
 require './bike'
 require './people'
 require './station'
 require './garage'
-require 'active_support/inflector'
-# require 'action_view'
+require './van'
 
 class Control
-  # include ActionView::Helpers::TextHelpers
 
   def initialize
-    @bikes, @people, @stations, @garages = [], [], [], []
+    @bikes, @people, @stations, @garages, @vans = [], [], [], [], []
   end
 
   def initialize_scenario
@@ -19,7 +21,12 @@ class Control
     make_people(5)
     make_stations(1)
     make_garages(1)
-    puts "There are #{@bikes.count} #{"bike".pluralize(@bikes.count)}, #{@people.count} #{"person".pluralize(@people.count)}, #{@stations.count} #{"station".pluralize(@stations.count)} and #{@garages.count} #{"garage".pluralize(@garages.count)} in your system at startup"    
+    make_vans(1)
+    puts "There are #{@bikes.count} #{"bike".pluralize(@bikes.count)}, " +
+                    "#{@people.count} #{"person".pluralize(@people.count)}, " +
+                    "#{@stations.count} #{"station".pluralize(@stations.count)}, " + 
+                    "#{@vans.count} #{"van".pluralize(@vans.count)} " + 
+                    "and #{@garages.count} #{"garage".pluralize(@garages.count)} in your system at startup"    
   end
 
   def make_bikes(no)
@@ -44,7 +51,13 @@ class Control
     no.times do |i| 
       @garages << Garage.new(4)
     end
-  end   
+  end
+
+  def make_vans(no)
+    no.times do |i| 
+      @vans << Van.new("Van number #{i}")
+    end
+  end 
 end
 
 
