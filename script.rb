@@ -32,8 +32,10 @@ class Control
 
   def make_bikes(no)
     no.times do |i| 
-      @bikes << Bike.new(true, true)
-
+      bike = Bike.new(true, true)
+      station = @stations[0]
+      station.receive_bike(bike)
+      @bikes << bike
     end
 #     p (self)    
   end
@@ -78,7 +80,8 @@ class Control
 
   def bikes_in_station
     puts "Report: Bikes in Station"
-    puts @stations[0].bikes_in_station.nil? ? "There are 0 bikes at this station" : "There are #{bikes_in_station.count} bikes in the station"
+    # puts @stations[0].bikes_count
+    puts @stations[0].bikes_count.nil? ? "There are 0 bikes at this station" : "There are #{@stations[0].bikes_count} bikes in the station"
   end
 end
 

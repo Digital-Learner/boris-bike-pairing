@@ -14,5 +14,6 @@ class Bike
 
   def initialize(status, available, location = nil)
     @status, @available, @location  = status, available, location
+    # if location is nil, check stations, if they have spare room assign location to it 
   end
 end
