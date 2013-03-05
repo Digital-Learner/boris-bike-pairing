@@ -86,8 +86,8 @@ class Control
     puts "Report: Bikes Broken"
     puts "Broken Bikes Count: " + @stations[0].broken_bikes_count.to_s
     puts "Station Capacity: " + @stations[0].capacity.to_s
-    puts "Station Capacity / 2: " + (@stations[0].capacity / 2).to_s
-    @stations[0].broken_bikes_count > @stations[0].capacity / 2 ? @vans[0].collect_bikes(@stations[0], @stations[0].broken_bikes_count) : nil
+    puts "Station Capacity / 6.0: " + (@stations[0].capacity / 6.0).to_s
+    @stations[0].broken_bikes_count > @stations[0].capacity / 6.0 ? @vans[0].collect_bikes(@stations[0].name, @stations[0].broken_bikes_count) : nil
   end
 end
 
