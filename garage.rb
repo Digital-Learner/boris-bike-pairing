@@ -24,6 +24,6 @@ class Garage
   end
 
   def release_bike(*)
-    return @ready_for_collection
+    @ready_for_collection.first
   end
 end

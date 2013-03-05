@@ -98,7 +98,7 @@ class Control
     bikes_broken
     bikes_in_garage
     restock_station
-    # bikes_being_ridden
+    bikes_being_ridden
   end
 
   def bikes_in_circulation
@@ -146,6 +146,11 @@ class Control
     @vans[0].collect_bikes(@garages[0], @garages[0].ready_for_collection.count) if @garages[0].ready_for_collection.count > 0
     @vans[0].deliver_bikes(@stations[0], @vans[0].loaded_bikes.count, nil)
     puts "There are now #{@stations[0].bikes_in_station.count} bikes at station: #{@stations[0].name}"
+  end
+
+  def bikes_being_ridden
+    puts "Report: Bikes being Ridden"
+    @people[0].hire_bike(@stations[0])
   end
 end
 
