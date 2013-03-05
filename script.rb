@@ -1,4 +1,27 @@
 #!/usr/bin/env ruby
+system("clear")
+# Perform calculations to generate header section
+border_top_bottom = 0
+program_label = "Pragram-name: "
+program_name = $0.length
+prog_header = (program_label.length + program_name + 4)
+prog_head_blank = (program_label.length + program_name + 2)
+
+@debug = ARGV[0]
+
+# puts "debug set: #{debug}"
+
+
+# now print the program header
+prog_header.times { print "="}
+print "\n|"
+prog_head_blank.times { print " "}
+print "|"
+print "\n| #{program_label}#{$0} |\n|"
+prog_head_blank.times { print " "}
+print "|\n"
+prog_header.times { print "="}
+print "\n\n"
 
 # Gems
 require 'active_support/inflector'
@@ -15,6 +38,10 @@ class Control
   def initialize
     @bikes, @people, @stations, @garages, @vans = [], [], [], [], []
   end
+
+  # def debug?
+  #   @@debug == "-d"
+  # end  
 
   def initialize_scenario
     puts "Initializing your system"
@@ -87,7 +114,7 @@ class Control
     puts "Broken Bikes Count: " + @stations[0].broken_bikes_count.to_s
     puts "Station Capacity: " + @stations[0].capacity.to_s
     puts "Station Capacity / Station::BROKEN_UPPER_LIMIT: " + (@stations[0].capacity / Station::BROKEN_UPPER_LIMIT).to_s
-    @stations[0].broken_bikes_count > @stations[0].capacity / Station::BROKEN_UPPER_LIMIT ? @vans[0].collect_bikes(@stations[0].name, @stations[0].broken_bikes_count) : nil
+    @stations[0].broken_bikes_count > @stations[0].capacity / Station::BROKEN_UPPER_LIMIT ? @vans[0].collect_bikes(@stations[0], @stations[0].broken_bikes_count) : nil
   end
 end
 

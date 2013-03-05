@@ -3,7 +3,7 @@ require './bike'
 class Station
 
   attr_reader :name, :capacity
-  BROKEN_UPPER_LIMIT = 2 # allow max limit of 50%
+  BROKEN_UPPER_LIMIT = 5 # allow max limit of percentage (50% or 20%)
 
 
   def initialize(name, capacity = 5)
@@ -28,4 +28,17 @@ class Station
       raise "Station full"
     end
   end
+
+  def release_bike(broken)
+    if broken == true
+      bike = @bikes_in_station.select{|bike| bike.broken?}.first
+      @bikes_in_station.delete(bike)
+      return bike
+    else 
+      unbroken_bike = @bikes_in_station.select{|bike| !bike.broken?}.first
+      @bikes_in_station.delete(unbroken) 
+      return unbroken_bike 
+    end
+  end
+
 end
