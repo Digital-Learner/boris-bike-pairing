@@ -123,7 +123,6 @@ class Control
     @vans[0].collect_bikes(@stations[0], @stations[0].broken_bikes_count)
     puts "Collection completed, Delivery to Garage commencing"
     puts "#{@vans[0].inspect}"
-    # debugger    
     @vans[0].deliver_bikes(@garages[0], @vans[0].loaded_bikes.count)
   end
 

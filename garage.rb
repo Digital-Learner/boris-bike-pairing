@@ -11,11 +11,8 @@ class Garage
   end
 
   def fix_bikes
-    puts @bikes_to_be_fixed.count
     @bikes_to_be_fixed.each do |bike| 
-      puts "#{bike.inspect}"
       bike.fix!
-      puts "#{bike.inspect}"
       @ready_for_collection << bike
       total_bikes
     end
