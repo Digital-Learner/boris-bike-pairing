@@ -7,18 +7,9 @@ class Van
     @loaded_bikes = []
   end
 
-  def collect_bikes(station, no_to_collect)
-    # broken_bikes = []
-    puts "Request to collect #{no_to_collect} bikes from #{station.name}"
-    
-    # .each {|bike| bike.broken? ? broken_bikes << bike : next}
-
-    # while no_to_collect < broken_bikes.count
-      
-
-    # end
-
-    no_to_collect.times { @loaded_bikes << station.release_bike(true) }
+  def collect_bikes(location, no_to_collect)
+    puts "Request to collect #{no_to_collect} bikes from #{location.name}"
+    no_to_collect.times { @loaded_bikes << location.release_bike(true) }
     puts @loaded_bikes
   end
 
@@ -26,6 +17,11 @@ class Van
   #   @loaded_bikes << bike
   # end
 
-
-
+  def deliver_bikes(location, no_to_deliver)
+    puts "Delivering #{no_to_deliver} bikes to #{location.name}"
+    # no_to_deliver.times { @}
+    no_to_deliver.times { location.bikes_to_be_fixed << @loaded_bikes.pop }
+    puts @loaded_bikes.count
+    puts location.bikes_to_be_fixed.count
+  end
 end
