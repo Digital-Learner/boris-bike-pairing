@@ -22,4 +22,8 @@ class Garage
   def total_bikes
     @total_bikes = @bikes_to_be_fixed.count + @ready_for_collection.count
   end
+
+  def release_bike(*)
+    return @ready_for_collection
+  end
 end

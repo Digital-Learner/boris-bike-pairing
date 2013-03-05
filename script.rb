@@ -97,6 +97,7 @@ class Control
     bikes_in_station
     bikes_broken
     bikes_in_garage
+    restock_station
     # bikes_being_ridden
   end
 
@@ -123,7 +124,7 @@ class Control
     @vans[0].collect_bikes(@stations[0], @stations[0].broken_bikes_count)
     puts "Collection completed, Delivery to Garage commencing"
     puts "#{@vans[0].inspect}"
-    @vans[0].deliver_bikes(@garages[0], @vans[0].loaded_bikes.count)
+    @vans[0].deliver_bikes(@garages[0], @vans[0].loaded_bikes.count, :to_be_fixed)
   end
 
   def bikes_in_garage
@@ -138,6 +139,13 @@ class Control
     to_fix2 = @garages.first.bikes_to_be_fixed.count
     to_collect2 = @garages.first.ready_for_collection.count
     puts "Garage: #{@garages[0].name} has #{total2} bikes (To be fixed [#{to_fix2}], Awaiting collection [#{to_collect2}])"
+  end
+
+  def restock_station
+    # This can be refactored to use Control#collect_and_deliver (later!)
+    @vans[0].collect_bikes(@garages[0], @garages[0].ready_for_collection.count) if @garages[0].ready_for_collection.count > 0
+    @vans[0].deliver_bikes(@stations[0], @vans[0].loaded_bikes.count, nil)
+    puts "There are now #{@stations[0].bikes_in_station.count} bikes at station: #{@stations[0].name}"
   end
 end
 

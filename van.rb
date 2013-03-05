@@ -9,11 +9,14 @@ class Van
 
   def collect_bikes(location, no_to_collect)
     puts "Request to collect #{no_to_collect} bikes from #{location.name}"
+    # TODO:
+    # Okay, so we think we could use a module to do the release_bike method
+    # so that it could be reused for delivering bikes to/from stations/garages
     no_to_collect.times { @loaded_bikes << location.release_bike(true) }
   end
 
-  def deliver_bikes(location, no_to_deliver)
+  def deliver_bikes(location, no_to_deliver, direction)
     puts "Delivering #{no_to_deliver} bikes to #{location.name}"
-    no_to_deliver.times { location.bikes_to_be_fixed << @loaded_bikes.pop }
+    direction == :to_be_fixed ? no_to_deliver.times { location.bikes_to_be_fixed << @loaded_bikes.pop } : no_to_deliver.times { location.bikes_in_station << @loaded_bikes.pop }
   end
 end

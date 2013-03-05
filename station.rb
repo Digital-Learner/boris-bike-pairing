@@ -3,6 +3,7 @@ require './bike'
 class Station
 
   attr_reader :name, :capacity
+  attr_accessor :bikes_in_station
   BROKEN_UPPER_LIMIT = 20 # allow max limit of percentage (50% or 20%)
 
 
