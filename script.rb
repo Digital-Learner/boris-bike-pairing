@@ -84,8 +84,10 @@ class Control
 
   def bikes_broken
     puts "Report: Bikes Broken"
-    puts @stations[0].broken_bikes_count
-
+    puts "Broken Bikes Count: " + @stations[0].broken_bikes_count.to_s
+    puts "Station Capacity: " + @stations[0].capacity.to_s
+    puts "Station Capacity / 2: " + (@stations[0].capacity / 2).to_s
+    @stations[0].broken_bikes_count > @stations[0].capacity / 2 ? @vans[0].collect_bikes(@stations[0], @stations[0].broken_bikes_count) : nil
   end
 end
 

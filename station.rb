@@ -2,7 +2,7 @@ require './bike'
 
 class Station
 
-  attr_reader :name
+  attr_reader :name, :capacity
 
 
   def initialize(name, capacity = 5)
@@ -22,7 +22,6 @@ class Station
     end
     return @broken_bikes_count
   end
-
 
   def receive_bike(bike)
     if @capacity > bikes_count
