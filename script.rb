@@ -123,23 +123,26 @@ class Control
     @vans[0].collect_bikes(@stations[0], @stations[0].broken_bikes_count)
     puts "Collection completed, Delivery to Garage commencing"
     puts "#{@vans[0].inspect}"
-    debugger
-    # @vans[0].deliver_bikes("jordan", "20")    
+    # debugger    
     @vans[0].deliver_bikes(@garages[0], @vans[0].loaded_bikes.count)
   end
 
   def bikes_in_garage
     puts "Report: Bikes in Garage"
+
     total = @garages.first.total_bikes
     to_fix = @garages.first.bikes_to_be_fixed.count
     to_collect = @garages.first.ready_for_collection.count
-
-    puts "Garage: #{@garages[0].name} has #{total} bikes (To be fixed [#{to_fix}], Awaiting collection [#{to_collect}])"  
+    puts "Garage: #{@garages[0].name} has #{total} bikes (To be fixed [#{to_fix}], Awaiting collection [#{to_collect}])"
+    @garages[0].fix_bikes
+    total2 = @garages.first.total_bikes
+    to_fix2 = @garages.first.bikes_to_be_fixed.count
+    to_collect2 = @garages.first.ready_for_collection.count
+    puts "Garage: #{@garages[0].name} has #{total2} bikes (To be fixed [#{to_fix2}], Awaiting collection [#{to_collect2}])"
   end
 end
 
-
-
+# Start of main program execution
 control = Control.new
 
 control.initialize_scenario

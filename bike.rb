@@ -20,5 +20,9 @@ class Bike
 
   def broken?
     @broken
-  end  
+  end
+
+  def fix!
+    @broken=false
+  end
 end

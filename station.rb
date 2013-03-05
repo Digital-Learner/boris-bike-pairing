@@ -3,7 +3,7 @@ require './bike'
 class Station
 
   attr_reader :name, :capacity
-  BROKEN_UPPER_LIMIT = 10 # allow max limit of percentage (50% or 20%)
+  BROKEN_UPPER_LIMIT = 20 # allow max limit of percentage (50% or 20%)
 
 
   def initialize(name, capacity = 5)
