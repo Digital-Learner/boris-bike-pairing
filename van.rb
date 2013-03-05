@@ -13,13 +13,8 @@ class Van
     puts @loaded_bikes
   end
 
-  # def load_bike(bike)
-  #   @loaded_bikes << bike
-  # end
-
   def deliver_bikes(location, no_to_deliver)
     puts "Delivering #{no_to_deliver} bikes to #{location.name}"
-    # no_to_deliver.times { @}
     no_to_deliver.times { location.bikes_to_be_fixed << @loaded_bikes.pop }
     puts @loaded_bikes.count
     puts location.bikes_to_be_fixed.count

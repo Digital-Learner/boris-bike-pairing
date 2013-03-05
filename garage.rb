@@ -1,11 +1,13 @@
 class Garage
 
-  attr_reader :name 
+  attr_reader :name, :total_bikes, :ready_for_collection
   attr_accessor :bikes_to_be_fixed
 
   def initialize(name, capacity = 3)
     @capacity, @name = capacity, name
     @bikes_to_be_fixed = []
+    @ready_for_collection = []
+    @total_bikes ||= 0
   end
 
 #   def receive_bike(bike)

@@ -95,8 +95,8 @@ class Control
     puts "Generating report"
     bikes_in_circulation # total no. bikes created
     bikes_in_station
-    # bikes_in_garage
     bikes_broken
+    bikes_in_garage
     # bikes_being_ridden
   end
 
@@ -126,6 +126,15 @@ class Control
     debugger
     # @vans[0].deliver_bikes("jordan", "20")    
     @vans[0].deliver_bikes(@garages[0], @vans[0].loaded_bikes.count)
+  end
+
+  def bikes_in_garage
+    puts "Report: Bikes in Garage"
+    total = @garages.first.total_bikes
+    to_fix = @garages.first.bikes_to_be_fixed.count
+    to_collect = @garages.first.ready_for_collection.count
+
+    puts "Garage: #{@garages[0].name} has #{total} bikes (To be fixed [#{to_fix}], Awaiting collection [#{to_collect}])"  
   end
 end
 
