@@ -36,7 +36,6 @@ class Station
       @bikes_in_station.delete(bike)
       return bike
     else 
-      puts "you r here"
       @bikes_in_station.each {|i| puts i.inspect }
       unbroken_bike = @bikes_in_station.select{|bike| !bike.broken?}.first
       @bikes_in_station.delete(unbroken_bike) 

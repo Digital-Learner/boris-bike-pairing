@@ -151,6 +151,7 @@ class Control
   def bikes_being_ridden
     puts "Report: Bikes being Ridden"
     @people[0].hire_bike(@stations[0])
+    @people[0].return_bike(@stations[0])
   end
 end
 

@@ -12,4 +12,9 @@ class Person
     @bike = station.release_bike(false)
     puts "I hired #{@bike}"
   end
+
+  def return_bike(station)
+    station.receive_bike(@bike)
+    puts "Dude(tte), I didn't STEAL/ABANDON or BREAK it!"
+  end
 end
