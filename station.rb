@@ -6,7 +6,6 @@ class Station
   attr_accessor :bikes_in_station
   BROKEN_UPPER_LIMIT = 20 # allow max limit of percentage (50% or 20%)
 
-
   def initialize(name, capacity = 5)
     @name, @capacity = name, capacity
     @bikes_in_station = []
@@ -35,12 +34,10 @@ class Station
       bike = @bikes_in_station.select{|bike| bike.broken?}.first
       @bikes_in_station.delete(bike)
       return bike
-    else 
-      @bikes_in_station.each {|i| puts i.inspect }
+    else
       unbroken_bike = @bikes_in_station.select{|bike| !bike.broken?}.first
       @bikes_in_station.delete(unbroken_bike) 
       return unbroken_bike 
     end
   end
-
 end

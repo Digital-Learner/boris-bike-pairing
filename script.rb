@@ -91,6 +91,9 @@ class Control
     end
   end
 
+  # TODO:
+  # We currently have concerns mixed typically with run and report intertwined.
+  # Refactor
   def create_report
     puts "Generating report"
     bikes_in_circulation # total no. bikes created
@@ -107,7 +110,6 @@ class Control
 
   def bikes_in_station
     puts "Report: Bikes in Station"
-    # puts @stations[0].bikes_count
     puts @stations[0].bikes_count.nil? ? "There are 0 bikes at this station" : "There are #{@stations[0].bikes_count} bikes in the station"
   end
 
@@ -149,9 +151,27 @@ class Control
   end
 
   def bikes_being_ridden
-    puts "Report: Bikes being Ridden"
-    @people[0].hire_bike(@stations[0])
+    rand(10).times do
+      @people[0].hire_bike(@stations[0])
+    end
+    bikes_circulating_report
     @people[0].return_bike(@stations[0])
+  end
+
+  # Attempt to report on system status of bikes
+  def bikes_circulating_report
+    ridden = @stations[0].capacity - @stations[0].bikes_count
+    broken = @stations[0].broken_bikes_count
+    puts "Report: Bikes being Ridden\n===============\n"
+    # %() ruby sexy heredoc replacement
+
+    # regular heredoc
+    @text = <<CIRCULATING_BIKES
+There #{ridden == 1 ? "is" : "are" } #{ridden} #{"bike".pluralize(ridden)} out being ridden by 'no' of people
+
+CIRCULATING_BIKES
+
+    puts @text
   end
 end
 
