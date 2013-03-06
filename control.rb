@@ -61,10 +61,7 @@ class Control
 
   def make_bikes(no)
     no.times do |i| 
-      bike = Bike.new(true)
-      station = @stations[0]
-      station.receive_bike(bike)
-      @bikes << bike
+      @bikes << @stations[0].receive_bike(Bike.new(true))
     end
   end
 
