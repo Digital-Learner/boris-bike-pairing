@@ -12,7 +12,7 @@ class Station
   end
 
   # def bikes_count
-  #   @bikes_in_station.count
+  #   @bikes.count
   # end
 
   def broken_bikes # @stations.first.broken_bikes.count
@@ -30,17 +30,17 @@ class Station
   end
 
   def full?
-    @capacity > @bikes.count
+    @capacity <=  @bikes.count
   end
 
   def release_bike(broken)
     if broken # don't need to use == here
-      bike = @bikes_in_station.select{|bike| bike.broken?}.first
-      @bikes_in_station.delete(bike)
+      bike = @bikes.select{|bike| bike.broken?}.first
+      @bikes.delete(bike)
       bike # don't have to use return here
     else
-      unbroken_bike = @bikes_in_station.select{|bike| !bike.broken?}.first
-      @bikes_in_station.delete(unbroken_bike) 
+      unbroken_bike = @bikes.select{|bike| !bike.broken?}.first
+      @bikes.delete(unbroken_bike) 
       unbroken_bike 
     end
   end

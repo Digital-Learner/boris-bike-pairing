@@ -11,6 +11,7 @@ require './garage'
 require './van'
 require './control'
 
+# puts `bundle show active_support`
 
 # Start of main program execution
 Control.header

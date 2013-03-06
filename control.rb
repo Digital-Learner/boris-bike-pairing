@@ -87,7 +87,7 @@ class Control
   def create_report
     puts "Generating report"
     bikes_in_circulation # total no. bikes created
-    bikes_in_station
+    bikes
     bikes_broken
     bikes_in_garage
     restock_station
@@ -98,22 +98,22 @@ class Control
     puts "Report: Bikes in Circulation #{@bikes.count}"
   end
 
-  def bikes_in_station
+  def bikes
     puts "Report: Bikes in Station"
-    puts @stations[0].bikes_count.nil? ? "There are 0 bikes at this station" : "There are #{@stations[0].bikes_count} bikes in the station"
+    puts @stations[0].bikes.count.nil? ? "There are 0 bikes at this station" : "There are #{@stations[0].bikes.count} bikes in the station"
   end
 
   def bikes_broken
     puts "Report: Bikes Broken"
     # Refactor to add method to print messages when debug level is set
-    puts "Broken Bikes Count: " + @stations[0].broken_bikes_count.to_s
+    puts "Broken Bikes Count: " + @stations[0].broken_bikes.count.to_s
     puts "Station Capacity: " + @stations[0].capacity.to_s
     puts "Station Capacity / Station::BROKEN_UPPER_LIMIT: " + (@stations[0].capacity / Station::BROKEN_UPPER_LIMIT).to_s
-    @stations[0].broken_bikes_count > @stations[0].capacity / Station::BROKEN_UPPER_LIMIT ? collect_and_deliver : nil
+    @stations[0].broken_bikes.count > @stations[0].capacity / Station::BROKEN_UPPER_LIMIT ? collect_and_deliver : nil
   end
 
   def collect_and_deliver()
-    @vans[0].collect_bikes(@stations[0], @stations[0].broken_bikes_count)
+    @vans[0].collect_bikes(@stations[0], @stations[0].broken_bikes.count)
     puts "Collection completed, Delivery to Garage commencing"
     puts "#{@vans[0].inspect}"
     @vans[0].deliver_bikes(@garages[0], @vans[0].loaded_bikes.count, :to_be_fixed)
@@ -150,8 +150,8 @@ class Control
 
   # Attempt to report on system status of bikes
   def bikes_circulating_report
-    ridden = @stations[0].capacity - @stations[0].bikes_count
-    broken = @stations[0].broken_bikes_count
+    ridden = @stations[0].capacity - @stations[0].bikes.count
+    broken = @stations[0].broken_bikes.count
     puts "Report: Bikes being Ridden\n===============\n"
     # %() ruby sexy heredoc replacement
 
