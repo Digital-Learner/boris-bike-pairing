@@ -1,44 +1,47 @@
-require './bike'
+# require './bike'
 
 class Station
 
   attr_reader :name, :capacity
-  attr_accessor :bikes_in_station
+  attr_reader :bikes
   BROKEN_UPPER_LIMIT = 20 # allow max limit of percentage (50% or 20%)
 
   def initialize(name, capacity = 5)
     @name, @capacity = name, capacity
-    @bikes_in_station = []
-    @broken_bikes_count = 0
+    @bikes = []
   end
 
-  def bikes_count
-    @bikes_in_station.count
-  end
+  # def bikes_count
+  #   @bikes_in_station.count
+  # end
 
-  def broken_bikes_count
-    @bikes_in_station.count{|bike| bike.broken? }
+  def broken_bikes # @stations.first.broken_bikes.count
+    @bikes.select {|bike| bike.broken? }
   end
 
   def receive_bike(bike)
-    if @capacity > bikes_count
-      bike.location.nil? ? bike.location == self.name : nil
-      @bikes_in_station << bike
-    else
-      raise "Station full"
-    end
+    raise "Station full" if full?
+    # 1. get bike's location from the station, van or garage
+    # don't violate the DRY principle
+    # 2. it woulnd't work anyway because you used == instead of =
+    # 3. if part of the ternary operator is nil, you don't need the ternary operator
+    # bike.location.nil? ? bike.location == self.name : nil    
+    @bikes << bike
+  end
+
+  def full?
+    @capacity > @bikes.count
   end
 
   def release_bike(broken)
-    if broken == true
+    if broken # don't need to use == here
       bike = @bikes_in_station.select{|bike| bike.broken?}.first
       @bikes_in_station.delete(bike)
-      return bike
-    else 
-      puts @bikes_in_station.each {|i| i.inspect }
+      bike # don't have to use return here
+    else
       unbroken_bike = @bikes_in_station.select{|bike| !bike.broken?}.first
       @bikes_in_station.delete(unbroken_bike) 
-      return unbroken_bike 
+      unbroken_bike 
     end
   end
 end
