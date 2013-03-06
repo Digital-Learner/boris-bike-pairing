@@ -87,59 +87,75 @@ class Control
     end
   end
 
-  # TODO:
-  # We currently have concerns mixed typically with run and report intertwined.
-  # Refactor
-  def create_report
-    puts "Generating report"
-    bikes_in_circulation # total no. bikes created
-    bikes
-    bikes_broken
-    bikes_in_garage
-    restock_station
-    bikes_being_ridden
-  end
 
-  def run
-    @stations.each { |station| station.broken_bikes.count > station.capacity / Station::BROKEN_UPPER_LIMIT ? collect_and_deliver : nil }
-  end
-
-  def bikes_in_circulation
-    puts "Report: Bikes in Circulation: '#{@bikes.count}'"
-  end
-
-  def bikes
-    puts "Report: Bikes at Station(s)"
-    @stations.each {|station| station.bikes.count.nil? ? (puts "There are 0 bikes at #{station.name}") : (puts "There are #{system_state(station.bikes, "bike")} at station '#{station.name}'")}
-    @stations.each { |station| puts "#{station.name} Capacity: " + station.capacity.to_s }
-  end
-
-  def bikes_broken
-    puts "Report: Bikes Broken"
-    # Refactor to add method to print messages when debug level is set
-    @stations.each { |station| puts "Broken Bikes Count: " + station.broken_bikes.count.to_s } 
-  end
-
+  # Run Methods
   # TODO: collect(from, from_array, number)
   # TODO: deliver(to, to_array, number)
   # These are to refactor our collect_and_deliver and restock_station methods
 
+  def run
+    collect_and_deliver
+    bikes_being_ridden
+    restock_station
+    fix_bikes
+    collect_and_deliver
+  end
 
-  def collect_and_deliver()
-    @vans[0].collect_bikes(@stations[0], @stations[0].broken_bikes.count)
-    puts "Collection completed, Delivery to Garage commencing"
-    puts "#{@vans[0].inspect}"
-    @vans[0].deliver_bikes(@garages[0], @vans[0].loaded_bikes.count, :to_be_fixed)
+  def fix_bikes
+    @garages[0].fix_bikes
+  end
+
+  def collect_and_deliver
+    if @stations.each { |station| station.broken_bikes.count > station.capacity / Station::BROKEN_UPPER_LIMIT }
+      @vans[0].collect_bikes(@stations[0], @stations[0].broken_bikes.count)
+      @vans[0].deliver_bikes(@garages[0], @vans[0].loaded_bikes.count, :to_be_fixed)
+    end
   end
 
   def restock_station
     # This can be refactored to use Control#collect_and_deliver (later!)
     @vans[0].collect_bikes(@garages[0], @garages[0].ready_for_collection.count) if @garages[0].ready_for_collection.count > 0
     @vans[0].deliver_bikes(@stations[0], @vans[0].loaded_bikes.count, nil)
-    puts "There are now #{@stations[0].bikes.count} bikes at station: #{@stations[0].name}"
   end
 
-  def bikes_in_garage
+  def bikes_being_ridden
+    rand(10).times do
+      @people[0].hire_bike(@stations[0])
+    end
+    @people[0].return_bike(@stations[0])
+  end
+
+
+  # TODO:
+  # We currently have concerns mixed typically with run and report intertwined.
+  # Refactor
+  def create_report
+    puts "Generating report"
+    report_on_bikes_in_circulation # total no. bikes created
+    report_on_bikes_at_station
+    report_on_bikes_broken
+    report_on_bikes_in_garage
+    bikes_circulating_report
+  end
+
+  # Reporting Methods
+  def report_on_bikes_in_circulation
+    puts "Report: Bikes in Circulation: '#{@bikes.count}'"
+  end
+
+  def report_on_bikes_at_station
+    puts "Report: Bikes at Station(s)"
+    @stations.each {|station| station.bikes.count.nil? ? (puts "There are 0 bikes at #{station.name}") : (puts "There are #{system_state(station.bikes, "bike")} at station '#{station.name}'")}
+    @stations.each { |station| puts "#{station.name} Capacity: " + station.capacity.to_s }
+  end
+
+  def report_on_bikes_broken
+    puts "Report: Bikes Broken"
+    # Refactor to add method to print messages when debug level is set
+    @stations.each { |station| puts "Broken Bikes Count: " + station.broken_bikes.count.to_s } 
+  end
+
+  def report_on_bikes_in_garage
     puts "Report: Bikes in Garage"
 
     total = @garages.first.total_bikes
@@ -151,14 +167,6 @@ class Control
     to_fix2 = @garages.first.bikes_to_be_fixed.count
     to_collect2 = @garages.first.ready_for_collection.count
     puts "Garage: #{@garages[0].name} has #{total2} bikes (To be fixed [#{to_fix2}], Awaiting collection [#{to_collect2}])"
-  end
-
-  def bikes_being_ridden
-    rand(10).times do
-      @people[0].hire_bike(@stations[0])
-    end
-    bikes_circulating_report
-    @people[0].return_bike(@stations[0])
   end
 
   # Attempt to report on system status of bikes
@@ -176,4 +184,5 @@ CIRCULATING_BIKES
 
     puts @text
   end
+
 end
