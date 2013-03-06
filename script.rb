@@ -155,7 +155,7 @@ class Control
       @people[0].hire_bike(@stations[0])
     end
     bikes_circulating_report
-    @people[0].return_bike(@stations[0])
+    @people[0].return_bike(@stations[0]) # This is where the error is called from
   end
 
   # Attempt to report on system status of bikes

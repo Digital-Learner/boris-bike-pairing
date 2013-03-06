@@ -34,7 +34,8 @@ class Station
       bike = @bikes_in_station.select{|bike| bike.broken?}.first
       @bikes_in_station.delete(bike)
       return bike
-    else
+    else 
+      puts @bikes_in_station.each {|i| i.inspect }
       unbroken_bike = @bikes_in_station.select{|bike| !bike.broken?}.first
       @bikes_in_station.delete(unbroken_bike) 
       return unbroken_bike 
