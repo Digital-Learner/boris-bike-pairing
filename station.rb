@@ -4,16 +4,14 @@ class Station
 
   attr_reader :name, :capacity
   attr_reader :bikes
-  BROKEN_UPPER_LIMIT = 20 # allow max limit of percentage (50% or 20%)
+
+  # use a larger number to force more calls to collect_and_deliver
+  BROKEN_UPPER_LIMIT = 4 # allow max limit of percentage (50% or 20%) 
 
   def initialize(name, capacity = 5)
     @name, @capacity = name, capacity
     @bikes = []
   end
-
-  # def bikes_count
-  #   @bikes.count
-  # end
 
   def broken_bikes # @stations.first.broken_bikes.count
     @bikes.select {|bike| bike.broken? }

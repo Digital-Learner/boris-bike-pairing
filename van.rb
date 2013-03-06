@@ -17,6 +17,10 @@ class Van
 
   def deliver_bikes(location, no_to_deliver, direction)
     puts "Delivering #{no_to_deliver} bikes to #{location.name}"
-    direction == :to_be_fixed ? no_to_deliver.times { location.bikes_to_be_fixed << @loaded_bikes.pop } : no_to_deliver.times { location.bikes << @loaded_bikes.pop }
+    if direction == :to_be_fixed 
+     no_to_deliver.times { location.bikes_to_be_fixed << @loaded_bikes.pop } 
+    else
+     no_to_deliver.times { location.bikes << @loaded_bikes.pop }
+    end
   end
 end

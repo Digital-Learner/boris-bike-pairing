@@ -1,6 +1,6 @@
 class Control
 
-  TOTAL_STATIONS = 1
+  TOTAL_STATIONS = 2
   TOTAL_BIKES = 5
   TOTAL_PEOPLE = 5
   TOTAL_GARAGES = 1
@@ -24,9 +24,7 @@ class Control
     prog_head_blank = (program_label.length + program_name + 2)
 
     @debug = ARGV[0]
-
     # puts "debug set: #{debug}"
-
 
     # now print the program header
     prog_header.times { print "="}
@@ -56,7 +54,7 @@ class Control
   end
 
   def system_state(object, string)
-    "#{object.count} #{string.pluralize(object.count)}"
+    "'#{object.count}' #{string.pluralize(object.count)}"
   end
 
   def make_bikes(no)
@@ -103,28 +101,39 @@ class Control
   end
 
   def bikes_in_circulation
-    puts "Report: Bikes in Circulation #{@bikes.count}"
+    puts "Report: Bikes in Circulation: '#{@bikes.count}'"
   end
 
   def bikes
-    puts "Report: Bikes in Station"
-    puts @stations[0].bikes.count.nil? ? "There are 0 bikes at this station" : "There are #{@stations[0].bikes.count} bikes in the station"
+    puts "Report: Bikes at Station(s)"
+    @stations.each {|station| station.bikes.count.nil? ? (puts "There are 0 bikes at #{station.name}") : (puts "There are #{system_state(station.bikes, "bike")} at station '#{station.name}'")}
   end
 
   def bikes_broken
     puts "Report: Bikes Broken"
     # Refactor to add method to print messages when debug level is set
-    puts "Broken Bikes Count: " + @stations[0].broken_bikes.count.to_s
-    puts "Station Capacity: " + @stations[0].capacity.to_s
-    puts "Station Capacity / Station::BROKEN_UPPER_LIMIT: " + (@stations[0].capacity / Station::BROKEN_UPPER_LIMIT).to_s
-    @stations[0].broken_bikes.count > @stations[0].capacity / Station::BROKEN_UPPER_LIMIT ? collect_and_deliver : nil
+    @stations.each { |station| puts "Broken Bikes Count: " + station.broken_bikes.count.to_s } 
+    @stations.each { |station| puts "#{station.name} Capacity: " + station.capacity.to_s }
+    @stations.each { |station| station.broken_bikes.count > station.capacity / Station::BROKEN_UPPER_LIMIT ? collect_and_deliver : nil }
   end
+
+  # TODO: collect(from, from_array, number)
+  # TODO: deliver(to, to_array, number)
+  # These are to refactor our collect_and_deliver and restock_station methods
+
 
   def collect_and_deliver()
     @vans[0].collect_bikes(@stations[0], @stations[0].broken_bikes.count)
     puts "Collection completed, Delivery to Garage commencing"
     puts "#{@vans[0].inspect}"
     @vans[0].deliver_bikes(@garages[0], @vans[0].loaded_bikes.count, :to_be_fixed)
+  end
+
+  def restock_station
+    # This can be refactored to use Control#collect_and_deliver (later!)
+    @vans[0].collect_bikes(@garages[0], @garages[0].ready_for_collection.count) if @garages[0].ready_for_collection.count > 0
+    @vans[0].deliver_bikes(@stations[0], @vans[0].loaded_bikes.count, nil)
+    puts "There are now #{@stations[0].bikes.count} bikes at station: #{@stations[0].name}"
   end
 
   def bikes_in_garage
@@ -139,13 +148,6 @@ class Control
     to_fix2 = @garages.first.bikes_to_be_fixed.count
     to_collect2 = @garages.first.ready_for_collection.count
     puts "Garage: #{@garages[0].name} has #{total2} bikes (To be fixed [#{to_fix2}], Awaiting collection [#{to_collect2}])"
-  end
-
-  def restock_station
-    # This can be refactored to use Control#collect_and_deliver (later!)
-    @vans[0].collect_bikes(@garages[0], @garages[0].ready_for_collection.count) if @garages[0].ready_for_collection.count > 0
-    @vans[0].deliver_bikes(@stations[0], @vans[0].loaded_bikes.count, nil)
-    puts "There are now #{@stations[0].bikes.count} bikes at station: #{@stations[0].name}"
   end
 
   def bikes_being_ridden
