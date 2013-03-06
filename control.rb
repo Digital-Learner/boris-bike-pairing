@@ -47,11 +47,16 @@ class Control
     make_people(TOTAL_PEOPLE)
     make_garages(TOTAL_GARAGES)
     make_vans(TOTAL_VANS)
-    puts "There are #{@bikes.count} #{"bike".pluralize(@bikes.count)}, " +
-                    "#{@people.count} #{"person".pluralize(@people.count)}, " +
-                    "#{@stations.count} #{"station".pluralize(@stations.count)}, " + 
-                    "#{@vans.count} #{"van".pluralize(@vans.count)} " + 
-                    "and #{@garages.count} #{"garage".pluralize(@garages.count)} in your system at startup"
+
+    puts "There are #{system_state(@bikes, "bike")}, " +
+                    "#{system_state(@people, "person")}, " +
+                    "#{system_state(@stations, "station")}, " + 
+                    "#{system_state(@vans, "van")}" + 
+                    " and #{system_state(@garages, "garage")} in your system at startup"
+  end
+
+  def system_state(object, string)
+    "#{object.count} #{string.pluralize(object.count)}"
   end
 
   def make_bikes(no)
