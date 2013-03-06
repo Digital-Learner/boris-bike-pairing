@@ -8,6 +8,7 @@ class Control
 
   def initialize
     @bikes, @people, @stations, @garages, @vans = [], [], [], [], []
+    initialize_scenario
   end
 
   # def debug?
@@ -36,21 +37,6 @@ class Control
     print "|\n"
     prog_header.times { print "="}
     print "\n\n"
-  end
-
-  def initialize_scenario
-    puts "Initializing your system"
-    make_stations(TOTAL_STATIONS)
-    make_bikes(TOTAL_BIKES)
-    make_people(TOTAL_PEOPLE)
-    make_garages(TOTAL_GARAGES)
-    make_vans(TOTAL_VANS)
-
-    puts "There are #{system_state(@bikes, "bike")}, " +
-                    "#{system_state(@people, "person")}, " +
-                    "#{system_state(@stations, "station")}, " + 
-                    "#{system_state(@vans, "van")}" + 
-                    " and #{system_state(@garages, "garage")} in your system at startup"
   end
 
   def system_state(object, string)
@@ -116,6 +102,7 @@ class Control
     # This can be refactored to use Control#collect_and_deliver (later!)
     @vans[0].collect_bikes(@garages[0], @garages[0].ready_for_collection.count) if @garages[0].ready_for_collection.count > 0
     @vans[0].deliver_bikes(@stations[0], @vans[0].loaded_bikes.count, nil)
+    puts "There are now #{@stations[0].bikes.count} bikes at station: #{@stations[0].name}"
   end
 
   def bikes_being_ridden
@@ -157,16 +144,10 @@ class Control
 
   def report_on_bikes_in_garage
     puts "Report: Bikes in Garage"
-
     total = @garages.first.total_bikes
     to_fix = @garages.first.bikes_to_be_fixed.count
     to_collect = @garages.first.ready_for_collection.count
     puts "Garage: #{@garages[0].name} has #{total} bikes (To be fixed [#{to_fix}], Awaiting collection [#{to_collect}])"
-    @garages[0].fix_bikes
-    total2 = @garages.first.total_bikes
-    to_fix2 = @garages.first.bikes_to_be_fixed.count
-    to_collect2 = @garages.first.ready_for_collection.count
-    puts "Garage: #{@garages[0].name} has #{total2} bikes (To be fixed [#{to_fix2}], Awaiting collection [#{to_collect2}])"
   end
 
   # Attempt to report on system status of bikes
@@ -185,4 +166,20 @@ CIRCULATING_BIKES
     puts @text
   end
 
+  private
+  
+    def initialize_scenario
+      puts "Initializing your system"
+      make_stations(TOTAL_STATIONS)
+      make_bikes(TOTAL_BIKES)
+      make_people(TOTAL_PEOPLE)
+      make_garages(TOTAL_GARAGES)
+      make_vans(TOTAL_VANS)
+
+      puts "There are #{system_state(@bikes, "bike")}, " +
+                      "#{system_state(@people, "person")}, " +
+                      "#{system_state(@stations, "station")}, " + 
+                      "#{system_state(@vans, "van")}" + 
+                      " and #{system_state(@garages, "garage")} in your system at startup"
+    end
 end

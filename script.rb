@@ -17,10 +17,11 @@ require './control'
 Control.header
 control = Control.new
 
-control.initialize_scenario
-control.create_report
-
-
-control.run
 
 control.create_report
+
+while true
+  control.run
+  control.create_report
+end
+

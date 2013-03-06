@@ -14,6 +14,7 @@ class Station
   end
 
   def broken_bikes # @stations.first.broken_bikes.count
+    @bikes.each { |b| b.inspect }
     @bikes.select {|bike| bike.broken? }
   end
 
