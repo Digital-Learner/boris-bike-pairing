@@ -100,6 +100,10 @@ class Control
     bikes_being_ridden
   end
 
+  def run
+    @stations.each { |station| station.broken_bikes.count > station.capacity / Station::BROKEN_UPPER_LIMIT ? collect_and_deliver : nil }
+  end
+
   def bikes_in_circulation
     puts "Report: Bikes in Circulation: '#{@bikes.count}'"
   end
@@ -107,14 +111,13 @@ class Control
   def bikes
     puts "Report: Bikes at Station(s)"
     @stations.each {|station| station.bikes.count.nil? ? (puts "There are 0 bikes at #{station.name}") : (puts "There are #{system_state(station.bikes, "bike")} at station '#{station.name}'")}
+    @stations.each { |station| puts "#{station.name} Capacity: " + station.capacity.to_s }
   end
 
   def bikes_broken
     puts "Report: Bikes Broken"
     # Refactor to add method to print messages when debug level is set
     @stations.each { |station| puts "Broken Bikes Count: " + station.broken_bikes.count.to_s } 
-    @stations.each { |station| puts "#{station.name} Capacity: " + station.capacity.to_s }
-    @stations.each { |station| station.broken_bikes.count > station.capacity / Station::BROKEN_UPPER_LIMIT ? collect_and_deliver : nil }
   end
 
   # TODO: collect(from, from_array, number)

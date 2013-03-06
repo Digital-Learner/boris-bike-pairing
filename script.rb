@@ -21,3 +21,6 @@ control.initialize_scenario
 control.create_report
 
 
+control.run
+
+control.create_report
