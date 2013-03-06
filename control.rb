@@ -1,5 +1,11 @@
 class Control
 
+  TOTAL_STATIONS = 1
+  TOTAL_BIKES = 5
+  TOTAL_PEOPLE = 5
+  TOTAL_GARAGES = 1
+  TOTAL_VANS = 1
+
   def initialize
     @bikes, @people, @stations, @garages, @vans = [], [], [], [], []
   end
@@ -36,11 +42,11 @@ class Control
 
   def initialize_scenario
     puts "Initializing your system"
-    make_stations(1)
-    make_bikes(5)
-    make_people(5)
-    make_garages(1)
-    make_vans(1)
+    make_stations(TOTAL_STATIONS)
+    make_bikes(TOTAL_BIKES)
+    make_people(TOTAL_PEOPLE)
+    make_garages(TOTAL_GARAGES)
+    make_vans(TOTAL_VANS)
     puts "There are #{@bikes.count} #{"bike".pluralize(@bikes.count)}, " +
                     "#{@people.count} #{"person".pluralize(@people.count)}, " +
                     "#{@stations.count} #{"station".pluralize(@stations.count)}, " + 
